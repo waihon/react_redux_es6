@@ -11,9 +11,14 @@ import reduxImmutableStateInvariant from "redux-immutable-state-invariant";
 import thunk from "redux-thunk";
 
 export default function configureStore(initialState) {
+  // A redux store consist of:
+  // 1. A combined reducers
+  // 2. Initial state
+  // 3. Middleware
   return createStore(
     rootReducer,
     initialState,
+    // reduxImmutableStateInvariant is for development use only!
     applyMiddleware(thunk, reduxImmutableStateInvariant())
   );
 }

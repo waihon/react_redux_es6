@@ -12,6 +12,7 @@ import {loadCourses} from "./actions/courseActions"; // Named import
 import {loadAuthors} from "./actions/authorActions"; // Named import
 import "./styles/styles.css"; // Webpack can import CSS files too!
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import '../node_modules/toastr/build/toastr.min.css'; // For notifications
 
 // Could pass data in here for initial state for server rendering and
 // other things

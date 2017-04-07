@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 // Import sub components
 import CourseForm from './CourseForm';
+// For notifications such as success and error
+import toastr from 'toastr'
 
 class ManageCoursePage extends Component {
   constructor(props, context) {
@@ -12,7 +14,8 @@ class ManageCoursePage extends Component {
 
     this.state = {
       course: Object.assign({}, this.props.course),
-      errors: {}
+      errors: {},
+      saving: false
     };
 
     // Bind functions for proper this context
@@ -40,7 +43,25 @@ class ManageCoursePage extends Component {
 
   saveCourse(event) {
     event.preventDefault();
-    this.props.actions.saveCourse(this.state.course);
+    // Saving will start
+    this.setState({ saving: true });
+    this.props.actions.saveCourse(this.state.course)
+      // Using then to wait for the above promise to be fulfilled first.
+      .then(() => this.redirect())
+      .catch(error => {
+        // Show error message
+        toastr.error(error);
+        // Reset saving flag to hide preloader and restore Save button.
+        this.setState({ saving: false });
+      });
+  }
+
+  redirect() {
+    // Saving has completed to resetting the saving flag to hide preloader and
+    // restore Save button
+    this.setState({ saving: false });
+    // Show success message
+    toastr.success('Course saved');
     // An alternative to browserHistory.push() for redirecting.
     // Need to define contextTypes in order to use this.context.router
     this.context.router.push('/courses');
@@ -54,6 +75,7 @@ class ManageCoursePage extends Component {
         onSave={this.saveCourse}
         course={this.state.course}
         errors={this.state.errors}
+        saving={this.state.saving}
       />
     );
   }

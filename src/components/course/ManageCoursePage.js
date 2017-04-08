@@ -6,7 +6,7 @@ import * as courseActions from '../../actions/courseActions';
 // Import sub components
 import CourseForm from './CourseForm';
 // For notifications such as success and error
-import toastr from 'toastr'
+import toastr from 'toastr';
 
 class ManageCoursePage extends Component {
   constructor(props, context) {
